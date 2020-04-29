@@ -16,5 +16,20 @@
             android:id="@+id/nav_slideshow"
             android:icon="@drawable/ic_menu_slideshow"
             android:title="@string/menu_slideshow" />
+
+        <item
+            android:id="@+id/arkisto"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="Arkisto" />
+
+        <item
+            android:id="@+id/raportointi"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="raportinti" />
+
+        <item
+            android:id="@+id/calendar"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="calendar" />
     </group>
 </menu>
