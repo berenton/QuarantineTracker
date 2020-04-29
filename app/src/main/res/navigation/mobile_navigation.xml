@@ -40,4 +40,19 @@
         android:name="com.example.quarantinetracker.ui.slideshow.SlideshowFragment"
         android:label="@string/menu_slideshow"
         tools:layout="@layout/raportointi" />
+    <fragment
+        android:id="@+id/arkisto"
+        android:name="com.example.quarantinetracker.arkisto"
+        android:label="fragment_arkisto"
+        tools:layout="@layout/fragment_arkisto" />
+    <fragment
+        android:id="@+id/raportointi"
+        android:name="com.example.quarantinetracker.Raportointi"
+        android:label="fragment_raportointi"
+        tools:layout="@layout/fragment_raportointi" />
+    <fragment
+        android:id="@+id/calendar"
+        android:name="com.example.quarantinetracker.calendar"
+        android:label="fragment_calendar"
+        tools:layout="@layout/fragment_calendar" />
 </navigation>
