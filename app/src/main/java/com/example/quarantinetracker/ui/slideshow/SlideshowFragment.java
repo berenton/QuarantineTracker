@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -33,11 +34,19 @@ public class SlideshowFragment extends Fragment {
                 ViewModelProviders.of(this).get(SlideshowViewModel.class);
         View root = inflater.inflate(R.layout.raportointi, container, false);
 
-        Button nappi = root.findViewById(R.id.buttonAddData);
-        nappi.setOnClickListener(new View.OnClickListener() {
+        Button buttonAdd = root.findViewById(R.id.buttonAddData);
+        buttonAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 addData(v);
+            }
+        });
+
+        Button buttonShow = root.findViewById(R.id.buttonShowData);
+        buttonShow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showData(v);
             }
         });
 
@@ -51,6 +60,7 @@ public class SlideshowFragment extends Fragment {
     }
     public void addData(View v){
         myDb.insertData(2020,4,29,10,55,1,"Moi");
+        Toast.makeText(getContext(), "Data Inserted", Toast.LENGTH_LONG).show();
     }
     public void showData(View v){
         Cursor res = myDb.getAllData();
