@@ -13,23 +13,31 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.quarantinetracker.R;
+import com.example.quarantinetracker.ui.DatabaseHelper;
 
 public class SlideshowFragment extends Fragment {
+
+    DatabaseHelper myDb;
 
     private SlideshowViewModel slideshowViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+
+        myDb = new DatabaseHelper(null);
         slideshowViewModel =
                 ViewModelProviders.of(this).get(SlideshowViewModel.class);
         View root = inflater.inflate(R.layout.raportointi, container, false);
-        final TextView textView = root.findViewById(R.id.text_slideshow);
+
         slideshowViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
-                textView.setText(s);
+
             }
         });
         return root;
+    }
+    public void addData(View v){
+        myDb.insertData(2020,4,29,10,55,1,"Moi");
     }
 }
