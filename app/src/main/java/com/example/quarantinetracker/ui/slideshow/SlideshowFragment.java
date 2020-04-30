@@ -3,12 +3,10 @@ package com.example.quarantinetracker.ui.slideshow;
 import android.app.AlertDialog;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -38,7 +36,7 @@ public class SlideshowFragment extends Fragment {
         buttonAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addData(v);
+//                addData(v);
             }
         });
 
@@ -58,12 +56,15 @@ public class SlideshowFragment extends Fragment {
         });
         return root;
     }
+    /*
     public void addData(View v){
-        myDb.insertData(2020,4,29,10,55,1,"Moi");
+        myDb.insertReport(2020,4,29,10,55,1, "","Moi");
         Toast.makeText(getContext(), "Data Inserted", Toast.LENGTH_LONG).show();
     }
+
+     */
     public void showData(View v){
-        Cursor res = myDb.getAllData();
+        Cursor res = myDb.getRaportData();
         if(res.getCount() == 0){
             showMessage("Error", "No data found.");
             return;

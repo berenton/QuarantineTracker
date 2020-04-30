@@ -47,7 +47,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("create table " + MAIN_TABLE_NAME + " (" + MAIN_COL_1 + " INTEGER PRIMARY KEY AUTOINCREMENT, " + MAIN_COL_2 + " INTEGER, "+ MAIN_COL_3 + " INTEGER,"+ MAIN_COL_4 +" INTEGER,"+ MAIN_COL_5 +" INTEGER,"+ MAIN_COL_6 +" INTEGER,"+ MAIN_COL_7 +" INTEGER,"+ MAIN_COL_8 +" INTEGER,"+ MAIN_COL_9 +" INTEGER,"+ MAIN_COL_10 +" INTEGER,"+ MAIN_COL_11 +" TEXT)");
+        db.execSQL("create table " + MAIN_TABLE_NAME + " (" + MAIN_COL_1 + " INTEGER PRIMARY KEY AUTOINCREMENT, " + MAIN_COL_2 + " INTEGER, "+ MAIN_COL_3 + " INTEGER,"+ MAIN_COL_4 +" INTEGER,"+ MAIN_COL_5 +" INTEGER,"+ MAIN_COL_6 +" INTEGER,"+ MAIN_COL_7 +" INTEGER,"+ MAIN_COL_8 +" INTEGER,"+ MAIN_COL_9 +" TEXT,"+ MAIN_COL_10 +" INTEGER,"+ MAIN_COL_11 +" TEXT)");
         db.execSQL("create table " + PEOPLE_TABLE_NAME + " (" + PEOPLE_COL_1 + " INTEGER PRIMARY KEY AUTOINCREMENT, " +PEOPLE_COL_2 + " TEXT)");
         db.execSQL("create table " + TITLE_TABLE_NAME + " (" + TITLE_COL_1 + " INTEGER PRIMARY KEY AUTOINCREMENT, " + TITLE_COL_2 + " TEXT, " + TITLE_COL_3 + " INTEGER," + TITLE_COL_4 + " INTEGER)");
         db.execSQL("create table " + LOCATION_TABLE_NAME + " (" + LOCATION_COL_1 + " INTEGER PRIMARY KEY AUTOINCREMENT, " + LOCATION_COL_2 + " TEXT, " + LOCATION_COL_3 + " INTEGER," + LOCATION_COL_4 + " INTEGER)");
@@ -59,10 +59,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public boolean insertData(int year, int month, int day, int hour, int minute, int assessment, String misc){
-        int activity = 0;
-        int location = 0;
-        int people = 0;
+    public boolean insertReport(int year, int month, int day, int hour, int minute, String activity, String location, String assessment, String people, String misc){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(MAIN_COL_2, year);
@@ -83,9 +80,43 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    public Cursor getAllData(){
+    public boolean insertPerson(String name){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(MAIN_COL_2, name);
+        long result = db.insert(PEOPLE_TABLE_NAME, null, contentValues);
+        if(result == -1){
+            return false;
+        } else{
+            return true;
+        }
+    }
+
+
+
+
+
+    public Cursor getRaportData(){
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor res = db.rawQuery("select * from "+ MAIN_TABLE_NAME,null);
+        return res;
+    }
+
+    public Cursor getLocationData(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor res = db.rawQuery("select * from "+ LOCATION_TABLE_NAME,null);
+        return res;
+    }
+
+    public Cursor getTitleData(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor res = db.rawQuery("select * from "+ TITLE_TABLE_NAME,null);
+        return res;
+    }
+
+    public Cursor getPeopleData(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor res = db.rawQuery("select * from "+ PEOPLE_TABLE_NAME,null);
         return res;
     }
 
