@@ -1,64 +1,92 @@
 package com.example.quarantinetracker;
 
+import android.app.AlertDialog;
+import android.database.Cursor;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link Raportointi#newInstance} factory method to
- * create an instance of this fragment.
- */
+import com.example.quarantinetracker.R;
+import com.example.quarantinetracker.ui.DatabaseHelper;
+import com.example.quarantinetracker.ui.slideshow.SlideshowViewModel;
+
 public class Raportointi extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    DatabaseHelper myDb;
 
-    public Raportointi() {
-        // Required empty public constructor
+    private SlideshowViewModel slideshowViewModel;
+
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             ViewGroup container, Bundle savedInstanceState) {
+
+        myDb = new DatabaseHelper(getContext());
+        slideshowViewModel =
+                ViewModelProviders.of(this).get(SlideshowViewModel.class);
+        View root = inflater.inflate(R.layout.raportointi, container, false);
+
+        Button buttonAdd = root.findViewById(R.id.buttonAddData);
+        buttonAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addData(v);
+            }
+        });
+
+        Button buttonShow = root.findViewById(R.id.buttonShowData);
+        buttonShow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showData(v);
+            }
+        });
+
+        slideshowViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
+            @Override
+            public void onChanged(@Nullable String s) {
+
+            }
+        });
+        return root;
     }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment Raportointi.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static Raportointi newInstance(String param1, String param2) {
-        Raportointi fragment = new Raportointi();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
+    public void addData(View v){
+        myDb.insertData(2020,4,29,10,55,1,"Moi");
+        Toast.makeText(getContext(), "Data Inserted", Toast.LENGTH_LONG).show();
     }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+    public void showData(View v){
+        Cursor res = myDb.getAllData();
+        if(res.getCount() == 0){
+            showMessage("Error", "No data found.");
+            return;
         }
+        StringBuffer buffer = new StringBuffer();
+        while (res.moveToNext()){
+            buffer.append("Id : "+res.getInt(0)+ "\n");
+            buffer.append("Year : "+res.getInt(1)+ "\n");
+            buffer.append("Month : "+res.getInt(2)+ "\n");
+            buffer.append("Day : "+res.getInt(3)+ "\n");
+            buffer.append("Hour : "+res.getInt(4)+ "\n");
+            buffer.append("Minute : "+res.getInt(5)+ "\n");
+            buffer.append("Assessment : "+res.getInt(8)+ "\n");
+            buffer.append("Misc : "+res.getString(0)+ "\n\n");
+        }
+        showMessage("Data: ", buffer.toString());
     }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_raportointi, container, false);
+    public void showMessage(String title, String message){
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setCancelable(true);
+        builder.setTitle(title);
+        builder.setMessage(message);
+        builder.show();
     }
 }

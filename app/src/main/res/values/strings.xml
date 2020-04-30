@@ -11,6 +11,12 @@
 
     <string name="home_second">Home Second</string>
 
+    <string name="Title">Title</string>
+    <string name="Place">Place</string>
+    <string name="Assessment">Assessment</string>
+    <string name="People">People</string>
+    <string name="Misc">Misc</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

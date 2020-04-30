@@ -4,25 +4,83 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.quarantinetracker.ui.slideshow.SlideshowFragment">
+    tools:context="com.example.quarantinetracker.Raportointi">
 
-    <Button
-        android:id="@+id/buttonAddData"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Add Data"
-        app:layout_constraintBottom_toTopOf="@+id/buttonShowData"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="150dp"
+        android:layout_height="600dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
-    <Button
-        android:id="@+id/buttonShowData"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Button"
+        <Button
+            android:id="@+id/Title"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:text="@string/Title" />
+
+        <Button
+            android:id="@+id/Place"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:text="@string/Place" />
+
+        <Button
+            android:id="@+id/Assessment"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:text="@string/Assessment" />
+
+        <Button
+            android:id="@+id/People"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:text="@string/People" />
+
+        <Button
+            android:id="@+id/Misc"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:text="@string/Misc" />
+
+        <Button
+            android:id="@+id/buttonAddData"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:text="Save Report" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginEnd="1dp"
+        android:gravity="center"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toEndOf="@+id/linearLayout"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/newOption"
+            style="@android:style/Widget.TextView"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:background="#BCBCBC"
+            android:padding="20dp"
+            android:text="New Selection"
+            android:textAlignment="center"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/buttonShowData"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="36dp"
+            android:text="Button" />
+
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
