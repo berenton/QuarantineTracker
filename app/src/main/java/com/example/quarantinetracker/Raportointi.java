@@ -54,11 +54,11 @@ public class Raportointi extends Fragment {
         slideshowViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
-
             }
         });
         return root;
     }
+
     public void addData(View v){
         myDb.insertData(2020,4,29,10,55,1,"Moi");
         Toast.makeText(getContext(), "Data Inserted", Toast.LENGTH_LONG).show();

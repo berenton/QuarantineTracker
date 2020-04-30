@@ -9,7 +9,8 @@
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="150dp"
-        android:layout_height="600dp"
+        android:layout_height="fill_parent"
+        android:gravity="center"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent">
@@ -63,24 +64,77 @@
         app:layout_constraintStart_toEndOf="@+id/linearLayout"
         app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/newOption"
-            style="@android:style/Widget.TextView"
+        <Button
+            android:id="@+id/selection1"
             android:layout_width="match_parent"
-            android:layout_height="80dp"
-            android:background="#BCBCBC"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/selection2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/selection3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/selection4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/selection5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/selection6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/selection7"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/nextPage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/previousPage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/newOption"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="New Option" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/addOption"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
             android:padding="20dp"
-            android:text="New Selection"
-            android:textAlignment="center"
-            android:textSize="24sp"
-            android:textStyle="bold" />
+            android:text="Add Option" />
 
         <Button
             android:id="@+id/buttonShowData"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="36dp"
-            android:text="Button" />
+            android:layout_marginBottom="5dp"
+            android:padding="20dp"
+            android:text="Show Data" />
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
