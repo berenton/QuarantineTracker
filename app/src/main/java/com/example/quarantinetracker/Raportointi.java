@@ -118,49 +118,49 @@ public class Raportointi extends Fragment {
         newOption = root.findViewById(R.id.newOption);
 
         final Button selection1 = root.findViewById(R.id.selection1);
-        titleButton.setOnClickListener(new View.OnClickListener() {
+        selection1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 selectionButtonPressed(selection1.getText());
             }
         });
         final Button selection2 = root.findViewById(R.id.selection2);
-        titleButton.setOnClickListener(new View.OnClickListener() {
+        selection2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 selectionButtonPressed(selection2.getText());
             }
         });
         final Button selection3 = root.findViewById(R.id.selection3);
-        titleButton.setOnClickListener(new View.OnClickListener() {
+        selection3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 selectionButtonPressed(selection3.getText());
             }
         });
         final Button selection4 = root.findViewById(R.id.selection4);
-        titleButton.setOnClickListener(new View.OnClickListener() {
+        selection4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 selectionButtonPressed(selection4.getText());
             }
         });
         final Button selection5 = root.findViewById(R.id.selection5);
-        titleButton.setOnClickListener(new View.OnClickListener() {
+        selection5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 selectionButtonPressed(selection5.getText());
             }
         });
         final Button selection6 = root.findViewById(R.id.selection6);
-        titleButton.setOnClickListener(new View.OnClickListener() {
+        selection6.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 selectionButtonPressed(selection6.getText());
             }
         });
         final Button selection7 = root.findViewById(R.id.selection7);
-        titleButton.setOnClickListener(new View.OnClickListener() {
+        selection7.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 selectionButtonPressed(selection7.getText());
@@ -224,12 +224,15 @@ public class Raportointi extends Fragment {
 
     public void titleButtonPressed(){
         state = 't';
+        Toast.makeText(getContext(), "Title Selected", Toast.LENGTH_LONG).show();
     }
     public void placeButtonPressed(){
         state = 'l';
+        Toast.makeText(getContext(), "Location Selected", Toast.LENGTH_LONG).show();
     }
     public void assessmentButtonPressed(){
         state = 'a';
+        Toast.makeText(getContext(), "Assessment Selected", Toast.LENGTH_LONG).show();
     }
     public void peopleButtonPressed(){
         state = 'p';
