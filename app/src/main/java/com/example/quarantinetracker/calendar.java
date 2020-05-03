@@ -2,8 +2,10 @@ package com.example.quarantinetracker;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -15,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CalendarView;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.quarantinetracker.ui.DatabaseHelper;
@@ -33,10 +36,11 @@ public class calendar extends Fragment {
     CalendarView calendarView;
     TextView text;
 
+    private String date;
+
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
 
     public calendar() {
         // Required empty public constructor
@@ -68,8 +72,6 @@ public class calendar extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
-
-
     //
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -82,7 +84,7 @@ public class calendar extends Fragment {
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
-                String date = dayOfMonth + "/" + month + "/" + year;
+                date = dayOfMonth + "/" + (month +1) + "/" + year; // kuukausi alkaa nollasta, joten pitää lisätä kuukauteen yksi
                 text.setText(date);
             }
         });
