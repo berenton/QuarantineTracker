@@ -13,7 +13,10 @@ import android.widget.TextView;
 
 import com.example.quarantinetracker.ui.DatabaseHelper;
 
-
+/**
+ * Class that runs the archive view.
+ * @author Berenton
+ */
 public class arkisto extends Fragment {
 
     TextView textField;
@@ -43,6 +46,10 @@ public class arkisto extends Fragment {
         return root;
     }
 
+    /**
+     * Method that gets all reports from the main table of the database.
+     * @return String containing the reports.
+     */
     public String getReports(){
         Cursor res = myDb.getReportData();
         if(res.getCount() == 0){

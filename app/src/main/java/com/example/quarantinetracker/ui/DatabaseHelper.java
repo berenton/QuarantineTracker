@@ -8,6 +8,10 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
 
+/**
+ * Class that helps with the usage of the SQLite database.
+ * @author Berenton
+ */
 public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "Raport.db";
     public static final String MAIN_TABLE_NAME = "Raport_table";
@@ -59,6 +63,20 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
+    /**
+     * Inserts the given parameters into the main SQL table as one row.
+     * @param year INT
+     * @param month INT
+     * @param day INT
+     * @param hour INT
+     * @param minute INT
+     * @param activity String
+     * @param location String
+     * @param assessment String
+     * @param people String
+     * @param misc String
+     * @return boolean on whether or not succeeded
+     */
     public boolean insertReport(int year, int month, int day, int hour, int minute, String activity, String location, String assessment, String people, String misc){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -80,6 +98,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
+    /**
+     * Inserts the given name into the person table.
+     * @param name
+     * @return boolean whether or not succeeded
+     */
     public boolean insertPerson(String name){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -92,6 +115,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
+    /**
+     * Inserts the given activity into the activity table.
+     * @param activity
+     * @return boolean whether or not succeeded
+     */
     public boolean insertTitle(String activity){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -104,6 +132,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
+    /**
+     * Inserts the given location into the location table.
+     * @param location
+     * @return boolean whether or not succeeded
+     */
     public boolean insertLocation(String location){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -117,12 +150,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 
+    /**
+     * Returns all reports from the main table.
+     * @return Cursor containing the data
+     */
     public Cursor getReportData(){
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor res = db.rawQuery("select * from "+ MAIN_TABLE_NAME,null);
         return res;
     }
 
+    /**
+     * Returns reports with the given date from the main table.
+     * @param month 1-12
+     * @param day
+     * @return Cursor containing the data
+     */
     public Cursor getReportData(int month, int day){
         SQLiteDatabase db = this.getWritableDatabase();
         String[] arg = {"WHERE Month=" + month , "WHERE Day=" + day};
@@ -130,18 +173,30 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return res;
     }
 
+    /**
+     * Returns all location names from the location table.
+     * @return Cursor containing the data
+     */
     public Cursor getLocationData(){
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor res = db.rawQuery("select * from "+ LOCATION_TABLE_NAME,null);
         return res;
     }
 
+    /**
+     * Returns all activity names from the activity table.
+     * @return Cursor containing the data.
+     */
     public Cursor getTitleData(){
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor res = db.rawQuery("select * from "+ TITLE_TABLE_NAME,null);
         return res;
     }
 
+    /**
+     * Returns all names from the people table.
+     * @return Cursor containing the data
+     */
     public Cursor getPeopleData(){
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor res = db.rawQuery("select * from "+ PEOPLE_TABLE_NAME,null);

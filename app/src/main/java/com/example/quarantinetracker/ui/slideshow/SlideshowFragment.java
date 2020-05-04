@@ -39,13 +39,6 @@ public class SlideshowFragment extends Fragment {
             }
         });
 
-        Button buttonShow = root.findViewById(R.id.buttonShowData);
-        buttonShow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showData(v);
-            }
-        });
 
         slideshowViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override

@@ -22,6 +22,11 @@ import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.Calendar;
 
+
+/**
+ * Class that runs the report input view.
+ * @author Berenton
+ */
 public class Raportointi extends Fragment {
 
     DatabaseHelper myDb;
@@ -52,6 +57,7 @@ public class Raportointi extends Fragment {
     EditText daySelection;
     EditText hourSelection;
     EditText minuteSelection;
+    EditText yearSelection;
 
     private SlideshowViewModel slideshowViewModel;
 
@@ -70,13 +76,6 @@ public class Raportointi extends Fragment {
             @Override
             public void onClick(View v) {
                 addData(v);
-            }
-        });
-        Button buttonShow = root.findViewById(R.id.buttonShowData);
-        buttonShow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showData(v);
             }
         });
 
@@ -140,6 +139,8 @@ public class Raportointi extends Fragment {
         hourSelection.setText(currentDate.get(Calendar.HOUR_OF_DAY)+"");
         minuteSelection = root.findViewById(R.id.minute);
         minuteSelection.setText(currentDate.get(Calendar.MINUTE)+"");
+        yearSelection = root.findViewById(R.id.year);
+        yearSelection.setText(currentDate.get(Calendar.YEAR)+"");
 
         final Button selection1 = root.findViewById(R.id.selection1);
         selection1.setOnClickListener(new View.OnClickListener() {
@@ -199,62 +200,38 @@ public class Raportointi extends Fragment {
         return root;
     }
 
+    /**
+     * Inserts the data from the report into SQL.
+     * @param v View
+     */
     public void addData(View v){
         month = Integer.parseInt(monthSelection.getText().toString());
         day = Integer.parseInt(daySelection.getText().toString());
         hour = Integer.parseInt(hourSelection.getText().toString());
         minute = Integer.parseInt(minuteSelection.getText().toString());
-        myDb.insertReport(2020,month,day,hour,minute,title,location,assessment,person,misc);
+        year = Integer.parseInt(yearSelection.getText().toString());
+        myDb.insertReport(year,month,day,hour,minute,title,location,assessment,person,misc);
         Toast.makeText(getContext(), "Data Inserted", Toast.LENGTH_LONG).show();
         state = 's';
     }
-    public void showData(View v){
-        Cursor res = myDb.getReportData();
-        if(res.getCount() == 0){
-            showMessage("Error", "No data found.");
-            return;
-        }
-        StringBuffer buffer = new StringBuffer();
-        while (res.moveToNext()){
-            buffer.append("Id : "+res.getInt(0)+ "\n");
-            buffer.append("Year : "+res.getInt(1)+ "\n");
-            buffer.append("Month : "+res.getInt(2)+ "\n");
-            buffer.append("Day : "+res.getInt(3)+ "\n");
-            buffer.append("Hour : "+res.getInt(4)+ "\n");
-            buffer.append("Minute : "+res.getInt(5)+ "\n");
-            buffer.append("Title : "+res.getString(6)+ "\n");
-            buffer.append("Location : "+res.getString(7)+ "\n");
-            buffer.append("Assessment : "+res.getString(8)+ "\n");
-            buffer.append("People : "+res.getString(9)+ "\n");
-            buffer.append("Misc : "+res.getString(10)+ "\n\n");
-        }
-        showMessage("Data: ", buffer.toString());
-    }
 
-    public void getPeople(View v){
-        Cursor res = myDb.getPeopleData();
-        String people[] = new String[0];
-        for(int i = 0; res.moveToNext(); i++){
-            people[i] = res.getString(1);
-        }
-
-    }
-
-    public void showMessage(String title, String message){
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setCancelable(true);
-        builder.setTitle(title);
-        builder.setMessage(message);
-        builder.show();
-    }
-
+    /**
+     * Called when the title-button is pressed. Makes title selection active and provides suggestions from user's previous titles.
+     */
     public void titleButtonPressed(){
+        /**
+         * moi
+         */
         state = 't';
         clearSelectionButtons();
         Toast.makeText(getContext(), "Title Selected", Toast.LENGTH_LONG).show();
         Cursor res = myDb.getTitleData();
         updateSelectionButtons(res);
     }
+
+    /**
+     * Called when the location-button is pressed. Makes location selection active and provides suggestions from user's previous locations.
+     */
     public void placeButtonPressed(){
         state = 'l';
         clearSelectionButtons();
@@ -262,11 +239,19 @@ public class Raportointi extends Fragment {
         Cursor res = myDb.getLocationData();
         updateSelectionButtons(res);
     }
+
+    /**
+     * Called when the assessment-button is pressed. Makes assessment selection active.
+     */
     public void assessmentButtonPressed(){
         state = 'a';
         clearSelectionButtons();
         Toast.makeText(getContext(), "Assessment Selected", Toast.LENGTH_LONG).show();
     }
+
+    /**
+     * Called when the people-button is pressed. Makes people selection active and provides suggestions from user's previous people choices.
+     */
     public void peopleButtonPressed(){
         state = 'p';
         clearSelectionButtons();
@@ -274,12 +259,21 @@ public class Raportointi extends Fragment {
         Cursor res = myDb.getPeopleData();
         updateSelectionButtons(res);
     }
+
+    /**
+     * Called when the misc-button is pressed. Makes misc selection active and provides suggestions from user's previous misc sections.
+     */
     public void miscButtonPressed(){
         state = 'm';
         clearSelectionButtons();
         Toast.makeText(getContext(), "Misc Selected", Toast.LENGTH_LONG).show();
     }
 
+    /**
+     * Updates the suggestions according to the cursor it is passed as a parameter.
+     * @param resource from the SQLite database. Parses into a list of strings.
+     * @return boolean on whether or not all saved suggestions fit on the screen.
+     */
     public boolean updateSelectionButtons(Cursor resource){
         String[] stringList = new String[7];
         for (int i = 0; resource.moveToNext(); i++){
@@ -293,6 +287,9 @@ public class Raportointi extends Fragment {
         return true;
     }
 
+    /**
+     * Clears the suggestions from selection buttons.
+     */
     public void clearSelectionButtons(){
         for(int i = 1; i<8; i++){
             selectionButtons[i].setText("");
@@ -300,6 +297,10 @@ public class Raportointi extends Fragment {
     }
 
 
+    /**
+     * Is called when a selecion button is pressed. Passes the content of the button to the active part of the report.
+     * @param content of the pressed selection button.
+     */
     public void selectionButtonPressed(CharSequence content){
         switch (state){
             case 't':
@@ -329,6 +330,10 @@ public class Raportointi extends Fragment {
         }
     }
 
+    /**
+     * Is called then the "Add option" button is pressed. Passes the contents of the editable text field to the active part of the report and adds them to an appropriate database.
+     * @param v
+     */
     public void addOptionButtonPressed(View v){
         switch (state) {
             case 't':
