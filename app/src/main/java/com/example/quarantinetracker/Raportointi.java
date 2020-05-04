@@ -3,11 +3,11 @@ package com.example.quarantinetracker;
 import android.app.AlertDialog;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -20,11 +20,13 @@ import com.example.quarantinetracker.ui.DatabaseHelper;
 import com.example.quarantinetracker.ui.slideshow.SlideshowViewModel;
 import com.google.android.material.textfield.TextInputEditText;
 
+import java.util.Calendar;
+
 public class Raportointi extends Fragment {
 
     DatabaseHelper myDb;
 
-    Button[] selectionButtons;
+    Button selectionButtons[] = new Button[8];
     Button titleButton;
     Button placeButton;
     Button peopleButton;
@@ -46,11 +48,17 @@ public class Raportointi extends Fragment {
     String misc;
 
     TextInputEditText newOption;
+    EditText monthSelection;
+    EditText daySelection;
+    EditText hourSelection;
+    EditText minuteSelection;
 
     private SlideshowViewModel slideshowViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+
+        Calendar currentDate = Calendar.getInstance();
 
         myDb = new DatabaseHelper(getContext());
         slideshowViewModel =
@@ -107,6 +115,13 @@ public class Raportointi extends Fragment {
                 miscButtonPressed();
             }
         });
+        selectionButtons[1] = root.findViewById(R.id.selection1);
+        selectionButtons[2] = root.findViewById(R.id.selection2);
+        selectionButtons[3] = root.findViewById(R.id.selection3);
+        selectionButtons[4] = root.findViewById(R.id.selection4);
+        selectionButtons[5] = root.findViewById(R.id.selection5);
+        selectionButtons[6] = root.findViewById(R.id.selection6);
+        selectionButtons[7] = root.findViewById(R.id.selection7);
 
         Button addOptionButton = root.findViewById(R.id.addOption);
         addOptionButton.setOnClickListener(new View.OnClickListener() {
@@ -116,6 +131,15 @@ public class Raportointi extends Fragment {
             }
         });
         newOption = root.findViewById(R.id.newOption);
+
+        monthSelection = root.findViewById(R.id.month);
+        monthSelection.setText((currentDate.get(Calendar.MONTH)+1)+"");
+        daySelection = root.findViewById(R.id.day);
+        daySelection.setText(currentDate.get(Calendar.DAY_OF_MONTH)+"");
+        hourSelection = root.findViewById(R.id.hour);
+        hourSelection.setText(currentDate.get(Calendar.HOUR_OF_DAY)+"");
+        minuteSelection = root.findViewById(R.id.minute);
+        minuteSelection.setText(currentDate.get(Calendar.MINUTE)+"");
 
         final Button selection1 = root.findViewById(R.id.selection1);
         selection1.setOnClickListener(new View.OnClickListener() {
@@ -178,7 +202,11 @@ public class Raportointi extends Fragment {
     }
 
     public void addData(View v){
-        myDb.insertReport(2020,4,29,10,55,title,location,assessment,person,misc);
+        month = Integer.parseInt(monthSelection.getText().toString());
+        day = Integer.parseInt(daySelection.getText().toString());
+        hour = Integer.parseInt(hourSelection.getText().toString());
+        minute = Integer.parseInt(minuteSelection.getText().toString());
+        myDb.insertReport(2020,month,day,hour,minute,title,location,assessment,person,misc);
         Toast.makeText(getContext(), "Data Inserted", Toast.LENGTH_LONG).show();
         state = 's';
     }
@@ -224,39 +252,81 @@ public class Raportointi extends Fragment {
 
     public void titleButtonPressed(){
         state = 't';
+        clearSelectionButtons();
         Toast.makeText(getContext(), "Title Selected", Toast.LENGTH_LONG).show();
+        Cursor res = myDb.getTitleData();
+        updateSelectionButtons(res);
     }
     public void placeButtonPressed(){
         state = 'l';
+        clearSelectionButtons();
         Toast.makeText(getContext(), "Location Selected", Toast.LENGTH_LONG).show();
+        Cursor res = myDb.getLocationData();
+        updateSelectionButtons(res);
     }
     public void assessmentButtonPressed(){
         state = 'a';
+        clearSelectionButtons();
         Toast.makeText(getContext(), "Assessment Selected", Toast.LENGTH_LONG).show();
     }
     public void peopleButtonPressed(){
         state = 'p';
+        clearSelectionButtons();
+        Toast.makeText(getContext(), "People Selected", Toast.LENGTH_LONG).show();
+        Cursor res = myDb.getPeopleData();
+        updateSelectionButtons(res);
     }
     public void miscButtonPressed(){
         state = 'm';
+        clearSelectionButtons();
+        Toast.makeText(getContext(), "Misc Selected", Toast.LENGTH_LONG).show();
     }
+
+    public boolean updateSelectionButtons(Cursor resource){
+        String[] stringList = new String[7];
+        for (int i = 0; resource.moveToNext(); i++){
+            stringList[i] = resource.getString(1);
+            if(i < 7){
+                selectionButtons[(i+1)].setText(stringList[i]);
+            }else {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public void clearSelectionButtons(){
+        for(int i = 1; i<8; i++){
+            selectionButtons[i].setText("");
+        }
+    }
+
 
     public void selectionButtonPressed(CharSequence content){
         switch (state){
             case 't':
                 Toast.makeText(getContext(), "Title Inserted", Toast.LENGTH_LONG).show();
+                titleButton.setText(content);
+                title = content.toString();
                 break;
             case 'l':
                 Toast.makeText(getContext(), "Place Inserted", Toast.LENGTH_LONG).show();
+                placeButton.setText(content);
+                location = content.toString();
                 break;
             case 'a':
                 Toast.makeText(getContext(), "Assessment Inserted", Toast.LENGTH_LONG).show();
+                assessment = content.toString();
                 break;
             case 'p':
                 Toast.makeText(getContext(), "People Inserted", Toast.LENGTH_LONG).show();
+                peopleButton.setText(content);
+                person = content.toString();
                 break;
             case 'm':
                 Toast.makeText(getContext(), "Misc Inserted", Toast.LENGTH_LONG).show();
+                miscButton.setText(content);
+                misc = content.toString();
                 break;
         }
     }
@@ -266,11 +336,13 @@ public class Raportointi extends Fragment {
             case 't':
                 title = newOption.getText().toString();
                 titleButton.setText(title);
+                myDb.insertTitle(title);
                 Toast.makeText(getContext(), "Selection saved", Toast.LENGTH_LONG).show();
                 break;
             case 'l':
                 location = newOption.getText().toString();
                 placeButton.setText(location);
+                myDb.insertLocation(location);
                 Toast.makeText(getContext(), "Selection saved", Toast.LENGTH_LONG).show();
                 break;
             case 'a':
@@ -292,12 +364,6 @@ public class Raportointi extends Fragment {
 
         }
         newOption.setText("");
-    }
-
-
-    public void chooseContent(View v){
-
-
     }
 
 }

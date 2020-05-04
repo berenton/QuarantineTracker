@@ -83,7 +83,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public boolean insertPerson(String name){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put(MAIN_COL_2, name);
+        contentValues.put(PEOPLE_COL_2, name);
         long result = db.insert(PEOPLE_TABLE_NAME, null, contentValues);
         if(result == -1){
             return false;
@@ -92,7 +92,29 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
+    public boolean insertTitle(String activity){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(TITLE_COL_2, activity);
+        long result = db.insert(TITLE_TABLE_NAME, null, contentValues);
+        if(result == -1){
+            return false;
+        } else{
+            return true;
+        }
+    }
 
+    public boolean insertLocation(String location){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(LOCATION_COL_2, location);
+        long result = db.insert(LOCATION_TABLE_NAME, null, contentValues);
+        if(result == -1){
+            return false;
+        } else{
+            return true;
+        }
+    }
 
 
 
