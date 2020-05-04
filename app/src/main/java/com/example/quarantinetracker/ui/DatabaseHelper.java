@@ -168,8 +168,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      */
     public Cursor getReportData(int month, int day){
         SQLiteDatabase db = this.getWritableDatabase();
-        String[] arg = {"WHERE Month=" + month , "WHERE Day=" + day};
-        Cursor res = db.rawQuery("select * from "+ LOCATION_TABLE_NAME,arg);
+        String[] arg = {month+"", day+""};
+        Cursor res = db.rawQuery("select * from "+ MAIN_TABLE_NAME + " WHERE "+MAIN_COL_3+ "=? AND "+MAIN_COL_4+"=?;", arg);
         return res;
     }
 

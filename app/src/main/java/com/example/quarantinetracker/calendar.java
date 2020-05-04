@@ -36,6 +36,9 @@ public class calendar extends Fragment {
     private String date;
     private SlideshowViewModel slideshowViewModel;
     DatabaseHelper myDb;
+    int month_;
+    int year_;
+    int day_;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -86,6 +89,9 @@ public class calendar extends Fragment {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
                 date = dayOfMonth + "/" + (month + 1) + "/" + year; // Tammikuu alkaa nollasta, joten pitää lisätä kuukauteen yksi
+                month_ = month;
+                year_ = year;
+                day_ = dayOfMonth;
                 text.setText(date);
             }
         });
@@ -102,7 +108,7 @@ public class calendar extends Fragment {
     }
 
     public void showData(View v){
-        Cursor res = myDb.getReportData();
+        Cursor res = myDb.getReportData((month_+1),day_);
         if(res.getCount() == 0){
             showMessage("Error", "No data found.");
             return;
