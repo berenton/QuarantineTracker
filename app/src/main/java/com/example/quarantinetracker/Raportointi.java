@@ -78,7 +78,6 @@ public class Raportointi extends Fragment {
                 addData(v);
             }
         });
-
         titleButton = root.findViewById(R.id.Title);
         titleButton.setOnClickListener(new View.OnClickListener() {
             @Override

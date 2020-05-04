@@ -19,63 +19,24 @@ import android.widget.Toast;
 import com.example.quarantinetracker.ui.DatabaseHelper;
 import com.example.quarantinetracker.ui.slideshow.SlideshowViewModel;
 
-
 /**
- * A simple {@link Fragment} subclass.
- * Use the {@link calendar#newInstance} factory method to
- * create an instance of this fragment.
+ * Class that runs calendar view and data for a certain date.
+ * @author Mika Åberg
+ * @version 5/2019
  */
 public class calendar extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+
     CalendarView calendarView;
     TextView text;
+    DatabaseHelper myDb;
 
     private String date;
     private SlideshowViewModel slideshowViewModel;
-    DatabaseHelper myDb;
+
     int month_;
     int year_;
     int day_;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public calendar() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment calendar.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static calendar newInstance(String param1, String param2) {
-        calendar fragment = new calendar();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
-
-    //
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -84,11 +45,15 @@ public class calendar extends Fragment {
                 ViewModelProviders.of(this).get(SlideshowViewModel.class);
         final View root = inflater.inflate(R.layout.fragment_calendar, container, false);
 
+        /**
+         * Shows the selected date.
+         * Month starts from 0. Add +1 to get current month.
+         */
         calendarView = root.findViewById(R.id.calendarView);
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
-                date = dayOfMonth + "/" + (month + 1) + "/" + year; // Tammikuu alkaa nollasta, joten pitää lisätä kuukauteen yksi
+                date = dayOfMonth + "/" + (month + 1) + "/" + year;
                 month_ = month;
                 year_ = year;
                 day_ = dayOfMonth;
@@ -96,6 +61,10 @@ public class calendar extends Fragment {
             }
         });
 
+        /**
+         * Called when current date button is pressed. Calls the showData() method.
+         * @param v
+         */
         text = root.findViewById(R.id.buttonData);
         text.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -103,10 +72,15 @@ public class calendar extends Fragment {
                 showData(v);
             }
         });
-
         return root;
     }
 
+    /**
+     * shows data from report
+     * add a current date
+     * @param v View
+     * @return no data add from user
+     */
     public void showData(View v){
         Cursor res = myDb.getReportData((month_+1),day_);
         if(res.getCount() == 0){
@@ -130,6 +104,11 @@ public class calendar extends Fragment {
         showMessage("Data: ", buffer.toString());
     }
 
+    /**
+     * shows the pop-up dialog message
+     * @param title
+     * @param message
+     */
     public void showMessage(String title, String message){
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setCancelable(true);
