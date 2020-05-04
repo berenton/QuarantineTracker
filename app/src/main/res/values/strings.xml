@@ -22,4 +22,6 @@
     <string name="textview">TextView</string>
     <string name="name">Name</string>
     <string name="save">save</string>
+    <string name="data">Data</string>
+    <string name="dataa">Data</string>
 </resources>
