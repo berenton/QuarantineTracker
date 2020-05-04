@@ -14,6 +14,12 @@
         <action
             android:id="@+id/action_HomeFragment_to_HomeSecondFragment"
             app:destination="@id/nav_home_second" />
+        <action
+            android:id="@+id/action_nav_home_to_raportointi"
+            app:destination="@id/raportointi" />
+        <action
+            android:id="@+id/action_nav_home_to_arkisto2"
+            app:destination="@id/arkisto" />
     </fragment>
     <fragment
         android:id="@+id/nav_home_second"
@@ -30,29 +36,26 @@
     </fragment>
 
     <fragment
-        android:id="@+id/nav_gallery"
-        android:name="com.example.quarantinetracker.ui.gallery.GalleryFragment"
-        android:label="@string/menu_gallery"
-        tools:layout="@layout/calendar" />
-
-    <fragment
-        android:id="@+id/nav_slideshow"
-        android:name="com.example.quarantinetracker.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
-        tools:layout="@layout/raportointi" />
-    <fragment
-        android:id="@+id/arkisto"
-        android:name="com.example.quarantinetracker.arkisto"
-        android:label="fragment_arkisto"
-        tools:layout="@layout/fragment_arkisto" />
-    <fragment
         android:id="@+id/raportointi"
         android:name="com.example.quarantinetracker.Raportointi"
         android:label="fragment_raportointi"
-        tools:layout="@layout/fragment_raportointi" />
+        tools:layout="@layout/fragment_raportointi" >
+        <action
+            android:id="@+id/action_raportointi_to_nav_home"
+            app:destination="@id/nav_home" />
+    </fragment>
     <fragment
         android:id="@+id/calendar"
         android:name="com.example.quarantinetracker.calendar"
         android:label="fragment_calendar"
         tools:layout="@layout/fragment_calendar" />
+    <fragment
+        android:id="@+id/arkisto"
+        android:name="com.example.quarantinetracker.arkisto"
+        android:label="fragment_arkisto"
+        tools:layout="@layout/fragment_arkisto" >
+        <action
+            android:id="@+id/action_arkisto2_to_nav_home"
+            app:destination="@id/nav_home" />
+    </fragment>
 </navigation>

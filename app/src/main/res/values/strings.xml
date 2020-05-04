@@ -13,9 +13,22 @@
 
     <string name="Title">Title</string>
     <string name="Place">Place</string>
-    <string name="Assessment">Assessment</string>
+    <string name="Assessment">Likelyhood of contagion</string>
     <string name="People">People</string>
     <string name="Misc">Misc</string>
+
+    <string name="Tutorial">
+        You can navigate between different views by using the navigation bar in the top left corner of the screen.\n
+        \n
+        You can enter a new report in the New Report screen. The program will remember your inputs and will suggest them when you go to enter new reports.\n
+        After you save the report, it is added to the database and will be stored on your device.\n
+        \n
+        In the Archive screen you can find all the reports you have entered in chronological order.\n
+        \n
+        In the Calendar screen you can press on a date and see all the reports from that specific date.\n
+        \n
+        Stay healthy and stay home :)
+    </string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
