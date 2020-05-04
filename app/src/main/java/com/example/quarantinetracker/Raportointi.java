@@ -209,7 +209,7 @@ public class Raportointi extends Fragment {
         state = 's';
     }
     public void showData(View v){
-        Cursor res = myDb.getRaportData();
+        Cursor res = myDb.getReportData();
         if(res.getCount() == 0){
             showMessage("Error", "No data found.");
             return;

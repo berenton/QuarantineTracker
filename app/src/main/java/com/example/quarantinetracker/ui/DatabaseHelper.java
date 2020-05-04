@@ -117,10 +117,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 
-
-    public Cursor getRaportData(){
+    public Cursor getReportData(){
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor res = db.rawQuery("select * from "+ MAIN_TABLE_NAME,null);
+        return res;
+    }
+
+    public Cursor getReportData(int month, int day){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String[] arg = {"WHERE Month=" + month , "WHERE Day=" + day};
+        Cursor res = db.rawQuery("select * from "+ LOCATION_TABLE_NAME,arg);
         return res;
     }
 

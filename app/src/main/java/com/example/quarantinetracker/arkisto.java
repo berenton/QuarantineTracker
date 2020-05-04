@@ -5,7 +5,6 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
-import android.provider.DocumentsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,7 +44,7 @@ public class arkisto extends Fragment {
     }
 
     public String getReports(){
-        Cursor res = myDb.getRaportData();
+        Cursor res = myDb.getReportData();
         if(res.getCount() == 0){
             return("No reports found");
         }
