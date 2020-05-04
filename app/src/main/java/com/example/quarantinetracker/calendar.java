@@ -1,12 +1,26 @@
 package com.example.quarantinetracker;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.ContentValues;
+import android.content.DialogInterface;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.CalendarView;
+import android.widget.EditText;
+import android.widget.TextView;
+
+import com.example.quarantinetracker.ui.DatabaseHelper;
 
 
 /**
@@ -19,6 +33,10 @@ public class calendar extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    CalendarView calendarView;
+    TextView text;
+
+    private String date;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -54,11 +72,22 @@ public class calendar extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
-
+    //
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_calendar, container, false);
+        final View root = inflater.inflate(R.layout.fragment_calendar, container, false);
+
+        calendarView = root.findViewById(R.id.calendarView);
+        text = root.findViewById(R.id.textView3);
+
+        calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+            @Override
+            public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
+                date = dayOfMonth + "/" + (month +1) + "/" + year; // kuukausi alkaa nollasta, joten pitää lisätä kuukauteen yksi
+                text.setText(date);
+            }
+        });
+        return root;
     }
 }
