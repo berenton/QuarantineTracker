@@ -22,7 +22,7 @@ import com.example.quarantinetracker.ui.slideshow.SlideshowViewModel;
 /**
  * Class that runs calendar view and data for a certain date.
  * @author Mika Åberg
- * @version 5/2019
+ * @version 5/5/2020
  */
 public class calendar extends Fragment {
 
