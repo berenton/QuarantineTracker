@@ -26,6 +26,7 @@ import java.util.Calendar;
 /**
  * Class that runs the report input view.
  * @author Berenton
+ * @version 20200505
  */
 public class Raportointi extends Fragment {
 
