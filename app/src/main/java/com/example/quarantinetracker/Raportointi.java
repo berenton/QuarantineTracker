@@ -1,6 +1,5 @@
 package com.example.quarantinetracker;
 
-import android.app.AlertDialog;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -17,49 +16,43 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.quarantinetracker.ui.DatabaseHelper;
-import com.example.quarantinetracker.ui.slideshow.SlideshowViewModel;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.Calendar;
+import java.util.Objects;
 
 
 /**
  * Class that runs the report input view.
  * @author Berenton
+ * @version 20200505
  */
 public class Raportointi extends Fragment {
 
-    DatabaseHelper myDb;
+    private DatabaseHelper myDb;
 
-    Button selectionButtons[] = new Button[8];
-    Button titleButton;
-    Button placeButton;
-    Button peopleButton;
-    Button assessmentButton;
-    Button miscButton;
+    private Button[] selectionButtons = new Button[8];
+    private Button titleButton;
+    private Button placeButton;
+    private Button peopleButton;
+    private Button assessmentButton;
+    private Button miscButton;
 
-    char state;
+    private char state;
 
-    int year;
-    int month;
-    int day;
-    int hour;
-    int minute;
-    String assessment;
-    String person;
-    String people[];
-    String location;
-    String title;
-    String misc;
+    private String assessment;
+    private String person;
+    private String people[];
+    private String location;
+    private String title;
+    private String misc;
 
-    TextInputEditText newOption;
-    EditText monthSelection;
-    EditText daySelection;
-    EditText hourSelection;
-    EditText minuteSelection;
-    EditText yearSelection;
-
-    private SlideshowViewModel slideshowViewModel;
+    private TextInputEditText newOption;
+    private EditText monthSelection;
+    private EditText daySelection;
+    private EditText hourSelection;
+    private EditText minuteSelection;
+    private EditText yearSelection;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -67,8 +60,6 @@ public class Raportointi extends Fragment {
         Calendar currentDate = Calendar.getInstance();
 
         myDb = new DatabaseHelper(getContext());
-        slideshowViewModel =
-                ViewModelProviders.of(this).get(SlideshowViewModel.class);
         final View root = inflater.inflate(R.layout.raportointi, container, false);
 
         Button buttonAdd = root.findViewById(R.id.buttonAddData);
@@ -141,59 +132,46 @@ public class Raportointi extends Fragment {
         yearSelection = root.findViewById(R.id.year);
         yearSelection.setText(currentDate.get(Calendar.YEAR)+"");
 
-        final Button selection1 = root.findViewById(R.id.selection1);
-        selection1.setOnClickListener(new View.OnClickListener() {
+        selectionButtons[1].setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                selectionButtonPressed(selection1.getText());
+                selectionButtonPressed(selectionButtons[1].getText());
             }
         });
-        final Button selection2 = root.findViewById(R.id.selection2);
-        selection2.setOnClickListener(new View.OnClickListener() {
+        selectionButtons[2].setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                selectionButtonPressed(selection2.getText());
+                selectionButtonPressed(selectionButtons[2].getText());
             }
         });
-        final Button selection3 = root.findViewById(R.id.selection3);
-        selection3.setOnClickListener(new View.OnClickListener() {
+        selectionButtons[3].setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                selectionButtonPressed(selection3.getText());
+                selectionButtonPressed(selectionButtons[3].getText());
             }
         });
-        final Button selection4 = root.findViewById(R.id.selection4);
-        selection4.setOnClickListener(new View.OnClickListener() {
+        selectionButtons[4].setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                selectionButtonPressed(selection4.getText());
+                selectionButtonPressed(selectionButtons[4].getText());
             }
         });
-        final Button selection5 = root.findViewById(R.id.selection5);
-        selection5.setOnClickListener(new View.OnClickListener() {
+        selectionButtons[5].setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                selectionButtonPressed(selection5.getText());
+                selectionButtonPressed(selectionButtons[5].getText());
             }
         });
-        final Button selection6 = root.findViewById(R.id.selection6);
-        selection6.setOnClickListener(new View.OnClickListener() {
+        selectionButtons[6].setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                selectionButtonPressed(selection6.getText());
+                selectionButtonPressed(selectionButtons[6].getText());
             }
         });
-        final Button selection7 = root.findViewById(R.id.selection7);
-        selection7.setOnClickListener(new View.OnClickListener() {
+        selectionButtons[7].setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                selectionButtonPressed(selection7.getText());
-            }
-        });
-
-        slideshowViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
+                selectionButtonPressed(selectionButtons[7].getText());
             }
         });
         return root;
@@ -204,12 +182,12 @@ public class Raportointi extends Fragment {
      * @param v View
      */
     public void addData(View v){
-        month = Integer.parseInt(monthSelection.getText().toString());
-        day = Integer.parseInt(daySelection.getText().toString());
-        hour = Integer.parseInt(hourSelection.getText().toString());
-        minute = Integer.parseInt(minuteSelection.getText().toString());
-        year = Integer.parseInt(yearSelection.getText().toString());
-        myDb.insertReport(year,month,day,hour,minute,title,location,assessment,person,misc);
+        int month = Integer.parseInt(monthSelection.getText().toString());
+        int day = Integer.parseInt(daySelection.getText().toString());
+        int hour = Integer.parseInt(hourSelection.getText().toString());
+        int minute = Integer.parseInt(minuteSelection.getText().toString());
+        int year = Integer.parseInt(yearSelection.getText().toString());
+        myDb.insertReport(year, month, day, hour, minute,title,location,assessment,person,misc);
         Toast.makeText(getContext(), "Data Inserted", Toast.LENGTH_LONG).show();
         state = 's';
     }
@@ -274,7 +252,7 @@ public class Raportointi extends Fragment {
      * @return boolean on whether or not all saved suggestions fit on the screen.
      */
     public boolean updateSelectionButtons(Cursor resource){
-        String[] stringList = new String[7];
+        String[] stringList = new String[21474];
         for (int i = 0; resource.moveToNext(); i++){
             stringList[i] = resource.getString(1);
             if(i < 7){
@@ -331,35 +309,35 @@ public class Raportointi extends Fragment {
 
     /**
      * Is called then the "Add option" button is pressed. Passes the contents of the editable text field to the active part of the report and adds them to an appropriate database.
-     * @param v
+     * @param v View
      */
     public void addOptionButtonPressed(View v){
         switch (state) {
             case 't':
-                title = newOption.getText().toString();
+                title = Objects.requireNonNull(newOption.getText()).toString();
                 titleButton.setText(title);
                 myDb.insertTitle(title);
                 Toast.makeText(getContext(), "Selection saved", Toast.LENGTH_LONG).show();
                 break;
             case 'l':
-                location = newOption.getText().toString();
+                location = Objects.requireNonNull(newOption.getText()).toString();
                 placeButton.setText(location);
                 myDb.insertLocation(location);
                 Toast.makeText(getContext(), "Selection saved", Toast.LENGTH_LONG).show();
                 break;
             case 'a':
-                assessment = newOption.getText().toString();
+                assessment = Objects.requireNonNull(newOption.getText()).toString();
                 assessmentButton.setText(assessment);
                 Toast.makeText(getContext(), "Selection saved", Toast.LENGTH_LONG).show();
                 break;
             case 'p':
-                person = newOption.getText().toString();
+                person = Objects.requireNonNull(newOption.getText()).toString();
                 myDb.insertPerson(person);
                 peopleButton.setText("Met with: \n" + person);
                 Toast.makeText(getContext(), "Selection saved", Toast.LENGTH_LONG).show();
                 break;
             case 'm':
-                misc = newOption.getText().toString();
+                misc = Objects.requireNonNull(newOption.getText()).toString();
                 miscButton.setText(misc);
                 Toast.makeText(getContext(), "Selection saved", Toast.LENGTH_LONG).show();
                 break;

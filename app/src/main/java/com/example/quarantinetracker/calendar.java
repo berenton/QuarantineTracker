@@ -17,7 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.quarantinetracker.ui.DatabaseHelper;
-import com.example.quarantinetracker.ui.slideshow.SlideshowViewModel;
+
 
 /**
  * Class that runs calendar view and data for a certain date.
@@ -31,7 +31,6 @@ public class calendar extends Fragment {
     DatabaseHelper myDb;
 
     private String date;
-    private SlideshowViewModel slideshowViewModel;
 
     int month_;
     int year_;
@@ -41,8 +40,6 @@ public class calendar extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         myDb = new DatabaseHelper(getContext());
-        slideshowViewModel =
-                ViewModelProviders.of(this).get(SlideshowViewModel.class);
         final View root = inflater.inflate(R.layout.fragment_calendar, container, false);
 
         /**

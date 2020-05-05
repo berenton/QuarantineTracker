@@ -16,6 +16,7 @@ import com.example.quarantinetracker.ui.DatabaseHelper;
 /**
  * Class that runs the archive view.
  * @author Berenton
+ * @version 20200505
  */
 public class arkisto extends Fragment {
 
