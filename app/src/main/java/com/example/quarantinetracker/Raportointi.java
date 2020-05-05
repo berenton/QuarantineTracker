@@ -16,7 +16,6 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.quarantinetracker.ui.DatabaseHelper;
-import com.example.quarantinetracker.ui.slideshow.SlideshowViewModel;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.Calendar;
@@ -61,7 +60,6 @@ public class Raportointi extends Fragment {
         Calendar currentDate = Calendar.getInstance();
 
         myDb = new DatabaseHelper(getContext());
-        SlideshowViewModel slideshowViewModel = ViewModelProviders.of(this).get(SlideshowViewModel.class);
         final View root = inflater.inflate(R.layout.raportointi, container, false);
 
         Button buttonAdd = root.findViewById(R.id.buttonAddData);
@@ -176,12 +174,6 @@ public class Raportointi extends Fragment {
                 selectionButtonPressed(selectionButtons[7].getText());
             }
         });
-
-        slideshowViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-            }
-        });
         return root;
     }
 
@@ -260,10 +252,10 @@ public class Raportointi extends Fragment {
      * @return boolean on whether or not all saved suggestions fit on the screen.
      */
     public boolean updateSelectionButtons(Cursor resource){
-        String[] stringList = new String[8];
+        String[] stringList = new String[21474];
         for (int i = 0; resource.moveToNext(); i++){
-            if(i <= 7){
-                stringList[i] = resource.getString(1);
+            stringList[i] = resource.getString(1);
+            if(i < 7){
                 selectionButtons[(i+1)].setText(stringList[i]);
             }else {
                 return false;
