@@ -76,7 +76,6 @@ public class calendar extends Fragment {
      * shows data from report
      * add a current date
      * @param v View
-     * @return no data add from user
      */
     public void showData(View v){
         Cursor res = myDb.getReportData((month_+1),day_);

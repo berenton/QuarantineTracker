@@ -13,36 +13,36 @@ import androidx.annotation.Nullable;
  * @author Berenton
  */
 public class DatabaseHelper extends SQLiteOpenHelper {
-    public static final String DATABASE_NAME = "Raport.db";
-    public static final String MAIN_TABLE_NAME = "Raport_table";
-    public static final String MAIN_COL_1 = "ID";
-    public static final String MAIN_COL_2 = "Year";
-    public static final String MAIN_COL_3 = "Month";
-    public static final String MAIN_COL_4 = "Day";
-    public static final String MAIN_COL_5 = "Hour";
-    public static final String MAIN_COL_6 = "Minute";
-    public static final String MAIN_COL_7 = "Activity_ID";
-    public static final String MAIN_COL_8 = "Location_ID";
-    public static final String MAIN_COL_9 = "Assessment";
-    public static final String MAIN_COL_10 = "People";
-    public static final String MAIN_COL_11 = "Misc";
+    private static final String DATABASE_NAME = "Raport.db";
+    private static final String MAIN_TABLE_NAME = "Raport_table";
+    private static final String MAIN_COL_1 = "ID";
+    private static final String MAIN_COL_2 = "Year";
+    private static final String MAIN_COL_3 = "Month";
+    private static final String MAIN_COL_4 = "Day";
+    private static final String MAIN_COL_5 = "Hour";
+    private static final String MAIN_COL_6 = "Minute";
+    private static final String MAIN_COL_7 = "Activity_ID";
+    private static final String MAIN_COL_8 = "Location_ID";
+    private static final String MAIN_COL_9 = "Assessment";
+    private static final String MAIN_COL_10 = "People";
+    private static final String MAIN_COL_11 = "Misc";
 
 
-    public static final String PEOPLE_TABLE_NAME = "People_table";
-    public static final String PEOPLE_COL_1 = "ID";
-    public static final String PEOPLE_COL_2 = "Name";
+    private static final String PEOPLE_TABLE_NAME = "People_table";
+    private static final String PEOPLE_COL_1 = "ID";
+    private static final String PEOPLE_COL_2 = "Name";
 
-    public static final String TITLE_TABLE_NAME = "Title_table";
-    public static final String TITLE_COL_1 = "ID";
-    public static final String TITLE_COL_2 = "Title";
-    public static final String TITLE_COL_3 = "Times";
-    public static final String TITLE_COL_4 = "AssessmentSum";
+    private static final String TITLE_TABLE_NAME = "Title_table";
+    private static final String TITLE_COL_1 = "ID";
+    private static final String TITLE_COL_2 = "Title";
+    private static final String TITLE_COL_3 = "Times";
+    private static final String TITLE_COL_4 = "AssessmentSum";
 
-    public static final String LOCATION_TABLE_NAME = "Location_table";
-    public static final String LOCATION_COL_1 = "ID";
-    public static final String LOCATION_COL_2 = "Location";
-    public static final String LOCATION_COL_3 = "Times";
-    public static final String LOCATION_COL_4 = "AssessmentSum";
+    private static final String LOCATION_TABLE_NAME = "Location_table";
+    private static final String LOCATION_COL_1 = "ID";
+    private static final String LOCATION_COL_2 = "Location";
+    private static final String LOCATION_COL_3 = "Times";
+    private static final String LOCATION_COL_4 = "AssessmentSum";
 
 
     public DatabaseHelper(@Nullable Context context) {
@@ -65,16 +65,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     /**
      * Inserts the given parameters into the main SQL table as one row.
-     * @param year INT
-     * @param month INT
-     * @param day INT
-     * @param hour INT
-     * @param minute INT
-     * @param activity String
-     * @param location String
-     * @param assessment String
-     * @param people String
-     * @param misc String
+     * @param year Year of the report INT
+     * @param month Month of the report INT
+     * @param day Day of the report INT
+     * @param hour Hour of the report INT
+     * @param minute Minute of the report INT
+     * @param activity Activity/Title field of the report String
+     * @param location Location field of the report String
+     * @param assessment Assessment field of the report String
+     * @param people People field of the report String
+     * @param misc Miscellaneous field of the report String
      * @return boolean on whether or not succeeded
      */
     public boolean insertReport(int year, int month, int day, int hour, int minute, String activity, String location, String assessment, String people, String misc){
@@ -91,16 +91,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(MAIN_COL_10, people);
         contentValues.put(MAIN_COL_11, misc);
         long result = db.insert(MAIN_TABLE_NAME, null, contentValues);
-        if(result == -1){
-            return false;
-        } else{
-            return true;
-        }
+        return result != -1;
     }
 
     /**
      * Inserts the given name into the person table.
-     * @param name
+     * @param name Name to be inserted into person table.
      * @return boolean whether or not succeeded
      */
     public boolean insertPerson(String name){
@@ -108,16 +104,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         ContentValues contentValues = new ContentValues();
         contentValues.put(PEOPLE_COL_2, name);
         long result = db.insert(PEOPLE_TABLE_NAME, null, contentValues);
-        if(result == -1){
-            return false;
-        } else{
-            return true;
-        }
+        return result != -1;
     }
 
     /**
      * Inserts the given activity into the activity table.
-     * @param activity
+     * @param activity Activity to be inserted into activity table.
      * @return boolean whether or not succeeded
      */
     public boolean insertTitle(String activity){
@@ -125,16 +117,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         ContentValues contentValues = new ContentValues();
         contentValues.put(TITLE_COL_2, activity);
         long result = db.insert(TITLE_TABLE_NAME, null, contentValues);
-        if(result == -1){
-            return false;
-        } else{
-            return true;
-        }
+        return result != -1;
     }
 
     /**
      * Inserts the given location into the location table.
-     * @param location
+     * @param location Location to be inserted into location table.
      * @return boolean whether or not succeeded
      */
     public boolean insertLocation(String location){
@@ -142,11 +130,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         ContentValues contentValues = new ContentValues();
         contentValues.put(LOCATION_COL_2, location);
         long result = db.insert(LOCATION_TABLE_NAME, null, contentValues);
-        if(result == -1){
-            return false;
-        } else{
-            return true;
-        }
+        return result != -1;
     }
 
 
@@ -156,21 +140,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      */
     public Cursor getReportData(){
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor res = db.rawQuery("select * from "+ MAIN_TABLE_NAME + " ORDER BY " + MAIN_COL_1 + " DESC",null);
-        return res;
+        return db.rawQuery("select * from "+ MAIN_TABLE_NAME + " ORDER BY " + MAIN_COL_1 + " DESC",null);
     }
 
     /**
      * Returns reports with the given date from the main table sorted by the most recently added.
-     * @param month 1-12
-     * @param day
+     * @param month Month of the searched date (1-12)
+     * @param day Day of the searched date (1-31)
      * @return Cursor containing the data
      */
     public Cursor getReportData(int month, int day){
         SQLiteDatabase db = this.getWritableDatabase();
         String[] arg = {month+"", day+""};
-        Cursor res = db.rawQuery("select * from "+ MAIN_TABLE_NAME + " WHERE "+MAIN_COL_3+ "=? AND "+MAIN_COL_4+"=? ORDER BY " + MAIN_COL_1 + " DESC", arg);
-        return res;
+        return db.rawQuery("select * from "+ MAIN_TABLE_NAME + " WHERE "+MAIN_COL_3+ "=? AND "+MAIN_COL_4+"=? ORDER BY " + MAIN_COL_1 + " DESC", arg);
     }
 
     /**
@@ -179,8 +161,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      */
     public Cursor getLocationData(){
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor res = db.rawQuery("select * from "+ LOCATION_TABLE_NAME + " ORDER BY " + LOCATION_COL_1 + " DESC",null);
-        return res;
+        return db.rawQuery("select * from "+ LOCATION_TABLE_NAME + " ORDER BY " + LOCATION_COL_1 + " DESC",null);
     }
 
     /**
@@ -189,8 +170,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      */
     public Cursor getTitleData(){
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor res = db.rawQuery("select * from "+ TITLE_TABLE_NAME + " ORDER BY " + TITLE_COL_1 + " DESC",null);
-        return res;
+        return db.rawQuery("select * from "+ TITLE_TABLE_NAME + " ORDER BY " + TITLE_COL_1 + " DESC",null);
     }
 
     /**
@@ -199,8 +179,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      */
     public Cursor getPeopleData(){
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor res = db.rawQuery("select * from "+ PEOPLE_TABLE_NAME + " ORDER BY " + PEOPLE_COL_1 + " DESC",null);
-        return res;
+        return db.rawQuery("select * from "+ PEOPLE_TABLE_NAME + " ORDER BY " + PEOPLE_COL_1 + " DESC",null);
     }
 
 }

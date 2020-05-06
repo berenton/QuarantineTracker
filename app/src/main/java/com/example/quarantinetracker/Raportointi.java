@@ -1,6 +1,5 @@
 package com.example.quarantinetracker;
 
-import android.content.res.ColorStateList;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -12,10 +11,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 
 import com.example.quarantinetracker.ui.DatabaseHelper;
 import com.google.android.material.textfield.TextInputEditText;
@@ -44,7 +40,6 @@ public class Raportointi extends Fragment {
 
     private String assessment;
     private String person;
-    private String people[];
     private String location;
     private String title;
     private String misc;
@@ -68,7 +63,7 @@ public class Raportointi extends Fragment {
         buttonAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addData(v);
+                addData();
             }
         });
         titleButton = root.findViewById(R.id.Title);
@@ -118,7 +113,7 @@ public class Raportointi extends Fragment {
         addOptionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addOptionButtonPressed(v);
+                addOptionButtonPressed();
             }
         });
         newOption = root.findViewById(R.id.newOption);
@@ -181,10 +176,8 @@ public class Raportointi extends Fragment {
 
     /**
      * Inserts the data from the report into SQL. Validates the user input date.
-     * @param v View
      */
-    public void addData(View v){
-        Calendar currentDate = Calendar.getInstance();
+    private void addData(){
         monthSelection.setTextColor(Color.BLACK);
         daySelection.setTextColor(Color.BLACK);
         yearSelection.setTextColor(Color.BLACK);
@@ -196,8 +189,11 @@ public class Raportointi extends Fragment {
         int minute = Integer.parseInt(minuteSelection.getText().toString());
         int year = Integer.parseInt(yearSelection.getText().toString());
         if(month > 0 && month < 13 && day > 0 && day < 32 && year > 1970 && year < 3000 && hour >= 0 && hour < 24 && minute >= 0 && minute < 60){
-            myDb.insertReport(year, month, day, hour, minute, title, location, assessment, person, misc);
-            Toast.makeText(getContext(), "Data Inserted", Toast.LENGTH_LONG).show();
+            if(myDb.insertReport(year, month, day, hour, minute, title, location, assessment, person, misc)) {
+                Toast.makeText(getContext(), "Data Inserted", Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(getContext(), "Data Insertion Failed", Toast.LENGTH_LONG).show();
+            }
             state = 's';
         } else {
             Toast.makeText(getContext(), "Invalid Date", Toast.LENGTH_LONG).show();
@@ -222,10 +218,7 @@ public class Raportointi extends Fragment {
     /**
      * Called when the title-button is pressed. Makes title selection active and provides suggestions from user's previous titles.
      */
-    public void titleButtonPressed(){
-        /**
-         * moi
-         */
+    private void titleButtonPressed(){
         state = 't';
         clearSelectionButtons();
         Toast.makeText(getContext(), "Title Selected", Toast.LENGTH_LONG).show();
@@ -236,7 +229,7 @@ public class Raportointi extends Fragment {
     /**
      * Called when the location-button is pressed. Makes location selection active and provides suggestions from user's previous locations.
      */
-    public void placeButtonPressed(){
+    private void placeButtonPressed(){
         state = 'l';
         clearSelectionButtons();
         Toast.makeText(getContext(), "Location Selected", Toast.LENGTH_LONG).show();
@@ -247,7 +240,7 @@ public class Raportointi extends Fragment {
     /**
      * Called when the assessment-button is pressed. Makes assessment selection active.
      */
-    public void assessmentButtonPressed(){
+    private void assessmentButtonPressed(){
         state = 'a';
         clearSelectionButtons();
         Toast.makeText(getContext(), "Assessment Selected", Toast.LENGTH_LONG).show();
@@ -256,7 +249,7 @@ public class Raportointi extends Fragment {
     /**
      * Called when the people-button is pressed. Makes people selection active and provides suggestions from user's previous people choices.
      */
-    public void peopleButtonPressed(){
+    private void peopleButtonPressed(){
         state = 'p';
         clearSelectionButtons();
         Toast.makeText(getContext(), "People Selected", Toast.LENGTH_LONG).show();
@@ -267,7 +260,7 @@ public class Raportointi extends Fragment {
     /**
      * Called when the misc-button is pressed. Makes misc selection active and provides suggestions from user's previous misc sections.
      */
-    public void miscButtonPressed(){
+    private void miscButtonPressed(){
         state = 'm';
         clearSelectionButtons();
         Toast.makeText(getContext(), "Misc Selected", Toast.LENGTH_LONG).show();
@@ -277,29 +270,27 @@ public class Raportointi extends Fragment {
      * Updates the suggestions according to the cursor it is passed as a parameter.
      * Checks that the string from the Database actually contains something.
      * @param resource from the SQLite database. Parses into a list of strings.
-     * @return boolean on whether or not all saved suggestions fit on the screen.
      */
-    public boolean updateSelectionButtons(Cursor resource){
+    private void updateSelectionButtons(Cursor resource){
         String[] stringList = new String[21474];
-        for (int i = 0, j = 0; resource.moveToNext(); i++, j++){
+        for (int i = 0, j = 0; resource.moveToNext(); i++, j++) {
             stringList[j] = resource.getString(1);
-            if(i < 7){
-                if(stringList[j] != null && stringList[j].length() != 0) {
+            if (i < 7) {
+                if (stringList[j] != null && stringList[j].length() != 0) {
                     selectionButtons[(i + 1)].setText(stringList[j]);
-                }else {
+                } else {
                     i--;
                 }
             }else {
-                return false;
+                break;
             }
         }
-        return true;
     }
 
     /**
      * Clears the suggestions from selection buttons.
      */
-    public void clearSelectionButtons(){
+    private void clearSelectionButtons(){
         for(int i = 1; i<8; i++){
             selectionButtons[i].setText("");
         }
@@ -310,7 +301,7 @@ public class Raportointi extends Fragment {
      * Is called when a selecion button is pressed. Passes the content of the button to the active part of the report.
      * @param content of the pressed selection button.
      */
-    public void selectionButtonPressed(CharSequence content){
+    private void selectionButtonPressed(CharSequence content){
         switch (state){
             case 't':
                 Toast.makeText(getContext(), "Title Inserted", Toast.LENGTH_LONG).show();
@@ -341,21 +332,26 @@ public class Raportointi extends Fragment {
 
     /**
      * Is called then the "Add option" button is pressed. Passes the contents of the editable text field to the active part of the report and adds them to an appropriate database.
-     * @param v View
      */
-    public void addOptionButtonPressed(View v){
+    private void addOptionButtonPressed(){
         switch (state) {
             case 't':
                 title = Objects.requireNonNull(newOption.getText()).toString();
                 titleButton.setText(title);
-                myDb.insertTitle(title);
-                Toast.makeText(getContext(), "Selection saved", Toast.LENGTH_LONG).show();
+                if(myDb.insertTitle(title)){
+                    Toast.makeText(getContext(), "Selection saved", Toast.LENGTH_LONG).show();
+                }else {
+                    Toast.makeText(getContext(), "Data Insertion Failed", Toast.LENGTH_LONG).show();
+                }
                 break;
             case 'l':
                 location = Objects.requireNonNull(newOption.getText()).toString();
                 placeButton.setText(location);
-                myDb.insertLocation(location);
-                Toast.makeText(getContext(), "Selection saved", Toast.LENGTH_LONG).show();
+                if(myDb.insertLocation(location)){
+                    Toast.makeText(getContext(), "Selection saved", Toast.LENGTH_LONG).show();
+                }else {
+                    Toast.makeText(getContext(), "Data Insertion Failed", Toast.LENGTH_LONG).show();
+                }
                 break;
             case 'a':
                 assessment = Objects.requireNonNull(newOption.getText()).toString();
@@ -364,9 +360,12 @@ public class Raportointi extends Fragment {
                 break;
             case 'p':
                 person = Objects.requireNonNull(newOption.getText()).toString();
-                myDb.insertPerson(person);
-                peopleButton.setText("Met with: \n" + person);
-                Toast.makeText(getContext(), "Selection saved", Toast.LENGTH_LONG).show();
+                if(myDb.insertPerson(person)) {
+                    peopleButton.setText("Met with: \n" + person);
+                    Toast.makeText(getContext(), "Selection saved", Toast.LENGTH_LONG).show();
+                }else {
+                    Toast.makeText(getContext(), "Data Insertion Failed", Toast.LENGTH_LONG).show();
+                }
                 break;
             case 'm':
                 misc = Objects.requireNonNull(newOption.getText()).toString();
