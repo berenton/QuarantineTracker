@@ -174,32 +174,32 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     /**
-     * Returns all location names from the location table.
+     * Returns all location names from the location table sorted by the most recently added.
      * @return Cursor containing the data
      */
     public Cursor getLocationData(){
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor res = db.rawQuery("select * from "+ LOCATION_TABLE_NAME,null);
+        Cursor res = db.rawQuery("select * from "+ LOCATION_TABLE_NAME + " ORDER BY " + LOCATION_COL_1 + " DESC",null);
         return res;
     }
 
     /**
-     * Returns all activity names from the activity table.
+     * Returns all activity names from the activity table sorted by the most recently added.
      * @return Cursor containing the data.
      */
     public Cursor getTitleData(){
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor res = db.rawQuery("select * from "+ TITLE_TABLE_NAME,null);
+        Cursor res = db.rawQuery("select * from "+ TITLE_TABLE_NAME + " ORDER BY " + TITLE_COL_1 + " DESC",null);
         return res;
     }
 
     /**
-     * Returns all names from the people table.
+     * Returns all names from the people table sorted by the most recently added.
      * @return Cursor containing the data
      */
     public Cursor getPeopleData(){
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor res = db.rawQuery("select * from "+ PEOPLE_TABLE_NAME,null);
+        Cursor res = db.rawQuery("select * from "+ PEOPLE_TABLE_NAME + " ORDER BY " + PEOPLE_COL_1 + " DESC",null);
         return res;
     }
 

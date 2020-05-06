@@ -207,7 +207,7 @@ public class Raportointi extends Fragment {
             if (day < 1 || day > 31){
                 daySelection.setTextColor(Color.RED);
             }
-            if (year < 171 || year > 2999){
+            if (year < 1971 || year > 2999){
                 yearSelection.setTextColor(Color.RED);
             }
             if (hour < 0 || hour >= 24){
@@ -275,15 +275,20 @@ public class Raportointi extends Fragment {
 
     /**
      * Updates the suggestions according to the cursor it is passed as a parameter.
+     * Checks that the string from the Database actually contains something.
      * @param resource from the SQLite database. Parses into a list of strings.
      * @return boolean on whether or not all saved suggestions fit on the screen.
      */
     public boolean updateSelectionButtons(Cursor resource){
         String[] stringList = new String[21474];
-        for (int i = 0; resource.moveToNext(); i++){
-            stringList[i] = resource.getString(1);
+        for (int i = 0, j = 0; resource.moveToNext(); i++, j++){
+            stringList[j] = resource.getString(1);
             if(i < 7){
-                selectionButtons[(i+1)].setText(stringList[i]);
+                if(stringList[j] != null && stringList[j].length() != 0) {
+                    selectionButtons[(i + 1)].setText(stringList[j]);
+                }else {
+                    i--;
+                }
             }else {
                 return false;
             }
