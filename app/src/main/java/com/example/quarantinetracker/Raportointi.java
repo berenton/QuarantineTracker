@@ -195,7 +195,7 @@ public class Raportointi extends Fragment {
         int hour = Integer.parseInt(hourSelection.getText().toString());
         int minute = Integer.parseInt(minuteSelection.getText().toString());
         int year = Integer.parseInt(yearSelection.getText().toString());
-        if(month > 0 && month < 13 && day > 0 && day < 32 && year > 1970 && year < 3000 && hour >= 0 && hour <= 24 && minute >= 0 && minute <= 60){
+        if(month > 0 && month < 13 && day > 0 && day < 32 && year > 1970 && year < 3000 && hour >= 0 && hour < 24 && minute >= 0 && minute < 60){
             myDb.insertReport(year, month, day, hour, minute, title, location, assessment, person, misc);
             Toast.makeText(getContext(), "Data Inserted", Toast.LENGTH_LONG).show();
             state = 's';
@@ -210,10 +210,10 @@ public class Raportointi extends Fragment {
             if (year < 171 || year > 2999){
                 yearSelection.setTextColor(Color.RED);
             }
-            if (hour < 0 || hour > 24){
+            if (hour < 0 || hour >= 24){
                 hourSelection.setTextColor(Color.RED);
             }
-            if (minute < 0 || minute > 60){
+            if (minute < 0 || minute >= 60){
                 minuteSelection.setTextColor(Color.RED);
             }
         }
