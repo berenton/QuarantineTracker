@@ -20,9 +20,7 @@ import com.example.quarantinetracker.ui.DatabaseHelper;
  */
 public class arkisto extends Fragment {
 
-    TextView textField;
-    DatabaseHelper myDb;
-    Button refreshButton;
+    private DatabaseHelper myDb;
 
     public arkisto() {
         // Required empty public constructor
@@ -35,9 +33,9 @@ public class arkisto extends Fragment {
         // Inflate the layout for this fragment
         myDb = new DatabaseHelper(getContext());
         final View root = inflater.inflate(R.layout.fragment_arkisto, container, false);
-        textField = root.findViewById(R.id.textField);
+        TextView textField = root.findViewById(R.id.textField);
         textField.setText(getReports());
-        refreshButton = root.findViewById(R.id.refreshButton);
+        Button refreshButton = root.findViewById(R.id.refreshButton);
         refreshButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -51,12 +49,12 @@ public class arkisto extends Fragment {
      * Method that gets all reports from the main table of the database.
      * @return String containing the reports.
      */
-    public String getReports(){
+    private String getReports(){
         Cursor res = myDb.getReportData();
         if(res.getCount() == 0){
             return("No reports found");
         }
-        StringBuffer buffer = new StringBuffer();
+        StringBuilder buffer = new StringBuilder();
         while (res.moveToNext()){
             buffer.append("Id : "+res.getInt(0)+ "\n");
             buffer.append("Year : "+res.getInt(1)+ "\n");
