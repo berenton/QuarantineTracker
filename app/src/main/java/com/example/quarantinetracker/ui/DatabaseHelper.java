@@ -151,17 +151,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 
     /**
-     * Returns all reports from the main table.
+     * Returns all reports from the main table sorted by the most recently added.
      * @return Cursor containing the data
      */
     public Cursor getReportData(){
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor res = db.rawQuery("select * from "+ MAIN_TABLE_NAME,null);
+        Cursor res = db.rawQuery("select * from "+ MAIN_TABLE_NAME + " ORDER BY " + MAIN_COL_1 + " DESC",null);
         return res;
     }
 
     /**
-     * Returns reports with the given date from the main table.
+     * Returns reports with the given date from the main table sorted by the most recently added.
      * @param month 1-12
      * @param day
      * @return Cursor containing the data
@@ -169,7 +169,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public Cursor getReportData(int month, int day){
         SQLiteDatabase db = this.getWritableDatabase();
         String[] arg = {month+"", day+""};
-        Cursor res = db.rawQuery("select * from "+ MAIN_TABLE_NAME + " WHERE "+MAIN_COL_3+ "=? AND "+MAIN_COL_4+"=?;", arg);
+        Cursor res = db.rawQuery("select * from "+ MAIN_TABLE_NAME + " WHERE "+MAIN_COL_3+ "=? AND "+MAIN_COL_4+"=? ORDER BY " + MAIN_COL_1 + " DESC", arg);
         return res;
     }
 

@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- @author Berenton -->
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -12,38 +13,13 @@
         tools:layout="@layout/fragment_home">
 
         <action
-            android:id="@+id/action_HomeFragment_to_HomeSecondFragment"
-            app:destination="@id/nav_home_second" />
-        <action
-            android:id="@+id/action_nav_home_to_raportointi"
-            app:destination="@id/raportointi" />
-        <action
             android:id="@+id/action_nav_home_to_arkisto2"
             app:destination="@id/arkisto" />
-    </fragment>
-    <fragment
-        android:id="@+id/nav_home_second"
-        android:name="com.example.quarantinetracker.ui.home.HomeSecondFragment"
-        android:label="@string/home_second"
-        tools:layout="@layout/fragment_home_second">
         <action
-            android:id="@+id/action_HomeSecondFragment_to_HomeFragment"
-            app:destination="@id/nav_home" />
-
-        <argument
-            android:name="myArg"
-            app:argType="string" />
+            android:id="@+id/action_nav_home_to_raportointi2"
+            app:destination="@id/raportointi" />
     </fragment>
 
-    <fragment
-        android:id="@+id/raportointi"
-        android:name="com.example.quarantinetracker.Raportointi"
-        android:label="fragment_raportointi"
-        tools:layout="@layout/fragment_raportointi" >
-        <action
-            android:id="@+id/action_raportointi_to_nav_home"
-            app:destination="@id/nav_home" />
-    </fragment>
     <fragment
         android:id="@+id/calendar"
         android:name="com.example.quarantinetracker.calendar"
@@ -56,6 +32,15 @@
         tools:layout="@layout/fragment_arkisto" >
         <action
             android:id="@+id/action_arkisto2_to_nav_home"
+            app:destination="@id/nav_home" />
+    </fragment>
+    <fragment
+        android:id="@+id/raportointi"
+        android:name="com.example.quarantinetracker.Raportointi"
+        android:label="raportointi"
+        tools:layout="@layout/raportointi" >
+        <action
+            android:id="@+id/action_raportointi2_to_nav_home"
             app:destination="@id/nav_home" />
     </fragment>
 </navigation>

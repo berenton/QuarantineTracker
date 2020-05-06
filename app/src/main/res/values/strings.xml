@@ -1,3 +1,4 @@
+<!-- @author Berenton -->
 <resources>
     <string name="app_name">Quarantine Tracker</string>
     <string name="nav_header_title">Android Studio</string>
@@ -13,7 +14,7 @@
 
     <string name="Title">Title</string>
     <string name="Place">Place</string>
-    <string name="Assessment">Likelyhood of contagion</string>
+    <string name="Assessment">Likelihood of contagion</string>
     <string name="People">People</string>
     <string name="Misc">Misc</string>
 
@@ -37,4 +38,5 @@
     <string name="save">save</string>
     <string name="data">Data</string>
     <string name="dataa">Data</string>
+    <string name="refresh">Refresh</string>
 </resources>
