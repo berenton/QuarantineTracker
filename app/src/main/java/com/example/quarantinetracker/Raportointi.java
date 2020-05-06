@@ -1,6 +1,8 @@
 package com.example.quarantinetracker;
 
+import android.content.res.ColorStateList;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -178,18 +180,43 @@ public class Raportointi extends Fragment {
     }
 
     /**
-     * Inserts the data from the report into SQL.
+     * Inserts the data from the report into SQL. Validates the user input date.
      * @param v View
      */
     public void addData(View v){
+        Calendar currentDate = Calendar.getInstance();
+        monthSelection.setTextColor(Color.BLACK);
+        daySelection.setTextColor(Color.BLACK);
+        yearSelection.setTextColor(Color.BLACK);
+        hourSelection.setTextColor(Color.BLACK);
+        minuteSelection.setTextColor(Color.BLACK);
         int month = Integer.parseInt(monthSelection.getText().toString());
         int day = Integer.parseInt(daySelection.getText().toString());
         int hour = Integer.parseInt(hourSelection.getText().toString());
         int minute = Integer.parseInt(minuteSelection.getText().toString());
         int year = Integer.parseInt(yearSelection.getText().toString());
-        myDb.insertReport(year, month, day, hour, minute,title,location,assessment,person,misc);
-        Toast.makeText(getContext(), "Data Inserted", Toast.LENGTH_LONG).show();
-        state = 's';
+        if(month > 0 && month < 13 && day > 0 && day < 32 && year > 1970 && year < 3000 && hour >= 0 && hour <= 24 && minute >= 0 && minute <= 60){
+            myDb.insertReport(year, month, day, hour, minute, title, location, assessment, person, misc);
+            Toast.makeText(getContext(), "Data Inserted", Toast.LENGTH_LONG).show();
+            state = 's';
+        } else {
+            Toast.makeText(getContext(), "Invalid Date", Toast.LENGTH_LONG).show();
+            if (month < 1 || month > 12){
+                monthSelection.setTextColor(Color.RED);
+            }
+            if (day < 1 || day > 31){
+                daySelection.setTextColor(Color.RED);
+            }
+            if (year < 171 || year > 2999){
+                yearSelection.setTextColor(Color.RED);
+            }
+            if (hour < 0 || hour > 24){
+                hourSelection.setTextColor(Color.RED);
+            }
+            if (minute < 0 || minute > 60){
+                minuteSelection.setTextColor(Color.RED);
+            }
+        }
     }
 
     /**
