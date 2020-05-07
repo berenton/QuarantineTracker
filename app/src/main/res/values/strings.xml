@@ -14,7 +14,7 @@
 
     <string name="Title">Title</string>
     <string name="Place">Place</string>
-    <string name="Assessment">Likelihood of contagion</string>
+    <string name="Assessment">Likelihood\nof contagion</string>
     <string name="People">People</string>
     <string name="Misc">Misc</string>
 

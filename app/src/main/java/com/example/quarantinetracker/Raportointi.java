@@ -29,7 +29,8 @@ public class Raportointi extends Fragment {
 
     private DatabaseHelper myDb;
 
-    private Button[] selectionButtons = new Button[8];
+    private
+    Button[] selectionButtons = new Button[7];
     private Button titleButton;
     private Button placeButton;
     private Button peopleButton;
@@ -101,13 +102,13 @@ public class Raportointi extends Fragment {
                 miscButtonPressed();
             }
         });
-        selectionButtons[1] = root.findViewById(R.id.selection1);
-        selectionButtons[2] = root.findViewById(R.id.selection2);
-        selectionButtons[3] = root.findViewById(R.id.selection3);
-        selectionButtons[4] = root.findViewById(R.id.selection4);
-        selectionButtons[5] = root.findViewById(R.id.selection5);
-        selectionButtons[6] = root.findViewById(R.id.selection6);
-        selectionButtons[7] = root.findViewById(R.id.selection7);
+        selectionButtons[0] = root.findViewById(R.id.selection1);
+        selectionButtons[1] = root.findViewById(R.id.selection2);
+        selectionButtons[2] = root.findViewById(R.id.selection3);
+        selectionButtons[3] = root.findViewById(R.id.selection4);
+        selectionButtons[4] = root.findViewById(R.id.selection5);
+        selectionButtons[5] = root.findViewById(R.id.selection6);
+        selectionButtons[6] = root.findViewById(R.id.selection7);
 
         Button addOptionButton = root.findViewById(R.id.addOption);
         addOptionButton.setOnClickListener(new View.OnClickListener() {
@@ -129,48 +130,16 @@ public class Raportointi extends Fragment {
         yearSelection = root.findViewById(R.id.year);
         yearSelection.setText(currentDate.get(Calendar.YEAR)+"");
 
-        selectionButtons[1].setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                selectionButtonPressed(selectionButtons[1].getText());
-            }
-        });
-        selectionButtons[2].setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                selectionButtonPressed(selectionButtons[2].getText());
-            }
-        });
-        selectionButtons[3].setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                selectionButtonPressed(selectionButtons[3].getText());
-            }
-        });
-        selectionButtons[4].setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                selectionButtonPressed(selectionButtons[4].getText());
-            }
-        });
-        selectionButtons[5].setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                selectionButtonPressed(selectionButtons[5].getText());
-            }
-        });
-        selectionButtons[6].setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                selectionButtonPressed(selectionButtons[6].getText());
-            }
-        });
-        selectionButtons[7].setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                selectionButtonPressed(selectionButtons[7].getText());
-            }
-        });
+
+        for (Button button : selectionButtons) {
+            final Button selectionButton = button;
+            selectionButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    selectionButtonPressed(selectionButton.getText());
+                }
+            });
+        }
         return root;
     }
 
@@ -277,7 +246,8 @@ public class Raportointi extends Fragment {
             stringList[j] = resource.getString(1);
             if (i < 7) {
                 if (stringList[j] != null && stringList[j].length() != 0) {
-                    selectionButtons[(i + 1)].setText(stringList[j]);
+                    selectionButtons[(i)].setText(stringList[j]);
+                    updateXButton(selectionButtons[i],stringList[j], 80);
                 } else {
                     i--;
                 }
@@ -291,7 +261,7 @@ public class Raportointi extends Fragment {
      * Clears the suggestions from selection buttons.
      */
     private void clearSelectionButtons(){
-        for(int i = 1; i<8; i++){
+        for(int i = 0; i<7; i++){
             selectionButtons[i].setText("");
         }
     }
@@ -305,27 +275,28 @@ public class Raportointi extends Fragment {
         switch (state){
             case 't':
                 Toast.makeText(getContext(), "Title Inserted", Toast.LENGTH_LONG).show();
-                titleButton.setText(content);
                 title = content.toString();
+                updateXButton(titleButton, title,15);
                 break;
             case 'l':
                 Toast.makeText(getContext(), "Place Inserted", Toast.LENGTH_LONG).show();
-                placeButton.setText(content);
                 location = content.toString();
+                updateXButton(placeButton,location,15);
                 break;
             case 'a':
                 Toast.makeText(getContext(), "Assessment Inserted", Toast.LENGTH_LONG).show();
                 assessment = content.toString();
+                updateXButton(assessmentButton,assessment,15);
                 break;
             case 'p':
                 Toast.makeText(getContext(), "People Inserted", Toast.LENGTH_LONG).show();
-                peopleButton.setText(content);
                 person = content.toString();
+                updateXButton(peopleButton,person,15);
                 break;
             case 'm':
                 Toast.makeText(getContext(), "Misc Inserted", Toast.LENGTH_LONG).show();
-                miscButton.setText(content);
                 misc = content.toString();
+                updateXButton(miscButton,misc,15);
                 break;
         }
     }
@@ -337,8 +308,8 @@ public class Raportointi extends Fragment {
         switch (state) {
             case 't':
                 title = Objects.requireNonNull(newOption.getText()).toString();
-                titleButton.setText(title);
                 if(myDb.insertTitle(title)){
+                    updateXButton(titleButton,title, 15);
                     Toast.makeText(getContext(), "Selection saved", Toast.LENGTH_LONG).show();
                 }else {
                     Toast.makeText(getContext(), "Data Insertion Failed", Toast.LENGTH_LONG).show();
@@ -346,8 +317,8 @@ public class Raportointi extends Fragment {
                 break;
             case 'l':
                 location = Objects.requireNonNull(newOption.getText()).toString();
-                placeButton.setText(location);
                 if(myDb.insertLocation(location)){
+                    updateXButton(placeButton,location, 15);
                     Toast.makeText(getContext(), "Selection saved", Toast.LENGTH_LONG).show();
                 }else {
                     Toast.makeText(getContext(), "Data Insertion Failed", Toast.LENGTH_LONG).show();
@@ -355,13 +326,13 @@ public class Raportointi extends Fragment {
                 break;
             case 'a':
                 assessment = Objects.requireNonNull(newOption.getText()).toString();
-                assessmentButton.setText(assessment);
+                updateXButton(assessmentButton,assessment,15);
                 Toast.makeText(getContext(), "Selection saved", Toast.LENGTH_LONG).show();
                 break;
             case 'p':
                 person = Objects.requireNonNull(newOption.getText()).toString();
                 if(myDb.insertPerson(person)) {
-                    peopleButton.setText("Met with: \n" + person);
+                    updateXButton(peopleButton,person,15);
                     Toast.makeText(getContext(), "Selection saved", Toast.LENGTH_LONG).show();
                 }else {
                     Toast.makeText(getContext(), "Data Insertion Failed", Toast.LENGTH_LONG).show();
@@ -369,7 +340,7 @@ public class Raportointi extends Fragment {
                 break;
             case 'm':
                 misc = Objects.requireNonNull(newOption.getText()).toString();
-                miscButton.setText(misc);
+                updateXButton(miscButton,misc,15);
                 Toast.makeText(getContext(), "Selection saved", Toast.LENGTH_LONG).show();
                 break;
 
@@ -377,4 +348,16 @@ public class Raportointi extends Fragment {
         newOption.setText("");
     }
 
+    /**
+     * Checks the length of the given string and cuts it down if necessary to fit the button.
+     * Inserts the string to the button.
+     * @param destination Button in which you want to insert the string
+     * @param content String you want to insert to the button
+     */
+    private void updateXButton(Button destination, String content, int maxLength){
+        if (content.length() > maxLength){
+            content = content.substring(0,maxLength)+"...";
+        }
+        destination.setText(content);
+    }
 }
