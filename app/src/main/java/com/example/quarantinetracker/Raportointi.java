@@ -266,7 +266,6 @@ public class Raportointi extends Fragment {
         }
     }
 
-
     /**
      * Is called when a selecion button is pressed. Passes the content of the button to the active part of the report.
      * @param content of the pressed selection button.
